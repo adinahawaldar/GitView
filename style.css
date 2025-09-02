@@ -150,10 +150,12 @@
      }
 
     .sec-title {
-         margin: 36px 0 12px; 
          font-size: 22px;
           font-weight: 800; 
           letter-spacing: 0.2px; 
+          text-align: center;
+          margin-top: 4rem;
+          margin-bottom: 2rem;
         }
 
     .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
