@@ -10,105 +10,23 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <style>
-    :root {
-      --bg: #0b0f17;
-      --card: rgba(255,255,255,0.06);
-      --border: rgba(255,255,255,0.12);
-      --text: #eaf2ff;
-      --muted: #a9b3c9;
-      --accent: #7cfff1;
-      --accent-2: #8ab4ff;
-      --good: #7CFFB2;
-      --warn: #FFD166;
-      --bad: #FF6B6B;
-      --shadow: 0 8px 40px rgba(0,0,0,0.35);
-      --radius: 18px;
-      --radius-lg: 24px;
-      --maxw: 1100px;
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: radial-gradient(1200px 1200px at 80% -20%, rgba(64,112,244,0.18), transparent 70%), radial-gradient(900px 900px at -10% 10%, rgba(124,255,241,0.15), transparent 70%), var(--bg); color: var(--text); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-
-    a { color: var(--accent-2); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    .container { width: min(96%, var(--maxw)); margin-inline: auto; }
-
-    header.hero { padding: 64px 0 32px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: center; }
-    @media (max-width: 900px){ header.hero { grid-template-columns: 1fr; padding-top: 36px; }}
-
-    .headline { font-size: clamp(28px, 4vw, 48px); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; }
-    .sub { color: var(--muted); font-size: clamp(14px, 2.2vw, 18px); margin-top: 10px; }
-
-    .glass { background: var(--card); border: 1px solid var(--border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: var(--shadow); border-radius: var(--radius-lg); }
-
-    .mockup { padding: 22px; position: relative; }
-    .badge { position: absolute; top: 14px; right: 14px; padding: 6px 12px; font-size: 12px; border-radius: 999px; background: rgba(124,255,241,0.15); border: 1px solid rgba(124,255,241,0.4); color: var(--accent); }
-
-    .how { margin: 18px 0 8px; display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
-    .how .step { padding: 14px; border-radius: var(--radius); border: 1px dashed var(--border); background: rgba(255,255,255,0.03); }
-    .how .step b { display: block; margin-bottom: 6px; }
-    @media (max-width: 800px){ .how { grid-template-columns: 1fr; }}
-
-    .input-card { margin: 20px 0 34px; padding: 16px; display: flex; gap: 10px; align-items: center; }
-    .input-card input { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text); padding: 14px 16px; font-size: 15px; border-radius: 14px; outline: none; transition: 0.2s border, 0.2s box-shadow; }
-    .input-card input:focus { border-color: var(--accent-2); box-shadow: 0 0 0 6px rgba(138,180,255,0.12); }
-    .btn { background: linear-gradient(135deg, var(--accent-2), #9bf0ff 60%); color: #001220; border: none; padding: 14px 18px; border-radius: 14px; font-weight: 700; letter-spacing: 0.2px; cursor: pointer; transition: transform .08s ease; }
-    .btn:active { transform: translateY(1px); }
-
-    .sec-title { margin: 36px 0 12px; font-size: 22px; font-weight: 800; letter-spacing: 0.2px; }
-
-    .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
-    .kpi { padding: 16px; border-radius: var(--radius); background: rgba(255,255,255,0.04); border: 1px solid var(--border); display: grid; gap: 6px; }
-    .kpi .label { color: var(--muted); font-size: 12px; }
-    .kpi .value { font-size: 22px; font-weight: 700; }
-    @media (max-width: 900px){ .kpis { grid-template-columns: repeat(2,1fr); }}
-
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 900px){ .grid { grid-template-columns: 1fr; }}
-
-    .card { padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--border); background: rgba(255,255,255,0.05); }
-    .card h3 { margin: 0 0 10px; font-size: 18px; }
-
-    .info-card { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
-    .avatar { width: 68px; height: 68px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.18); }
-    .repo-name { font-size: 20px; font-weight: 800; }
-    .desc { color: var(--muted); font-size: 14px; margin-top: 6px; }
-    .stats { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
-    .chip { padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.04); font-size: 12px; color: var(--muted); }
-
-    .contributors { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-    .contrib { display: flex; gap: 10px; align-items: center; padding: 10px; border: 1px solid var(--border); border-radius: 14px; background: rgba(255,255,255,0.04); transition: transform .15s ease, background .2s ease; }
-    .contrib:hover { transform: translateY(-2px); background: rgba(255,255,255,0.07); }
-    .contrib img { width: 40px; height: 40px; border-radius: 50%; }
-    .contrib .name { font-weight: 600; }
-    .contrib .count { font-size: 12px; color: var(--muted); }
-
-    .health { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .meter { height: 14px; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid var(--border); position: relative; overflow: hidden; }
-    .fill { position: absolute; inset: 0 auto 0 0; width: 0%; border-radius: inherit; background: linear-gradient(90deg, #ff6b6b, #ffd166 45%, #7cffb2); transition: width .8s cubic-bezier(.2,.7,.2,1); }
-    .emoji { font-size: 28px; }
-
-    .readme { max-height: 520px; overflow: auto; border-radius: 14px; padding: 12px; background: rgba(18,24,36,0.65); border: 1px solid var(--border); }
-    .readme h1, .readme h2, .readme h3 { margin-top: 1.2em; }
-    .readme pre { background: rgba(255,255,255,0.06); padding: 12px; border-radius: 10px; overflow: auto; }
-    .readme code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-
-    .features { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
-    .feature { padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 14px; min-height: 120px; }
-    @media (max-width: 1000px){ .features{ grid-template-columns: repeat(2,1fr);} }
-    @media (max-width: 560px){ .features{ grid-template-columns: 1fr;} }
-
-    footer { margin: 36px 0 28px; text-align: center; color: var(--muted); font-size: 13px; }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  
 </head>
 <body>
+
+    <header>
+        <div class="logo">GitView</div>
+
+    </header>
+    <hr>
   <div class="container">
     <header class="hero">
       <div>
         <div class="headline" data-aos="fade-up">Explore Any GitHub Project Instantly 🚀</div>
-        <div class="sub" data-aos="fade-up" data-aos-delay="80">Paste a GitHub repo URL to see a beautiful info card, analytics dashboard, contributors, project health, and README preview — all in one place.</div>
+        <div class="sub" data-aos="fade-up" data-aos-delay="80">Paste a GitHub repo URL to see a beautiful info card, analytics dashboard, contributors, project health, and README preview  all in one place.</div>
+
+
 
         <div class="how" data-aos="fade-up" data-aos-delay="140">
           <div class="step"><b>1) Paste URL</b><span class="muted">e.g. https://github.com/facebook/react</span></div>
@@ -116,15 +34,25 @@
           <div class="step"><b>3) Explore</b><span class="muted">Cards, charts, health score, and README.</span></div>
         </div>
 
-        <div class="glass input-card" data-aos="fade-up" data-aos-delay="200">
-          <input id="repoUrl" placeholder="Paste GitHub Repo URL… (https://github.com/user/repo)" />
-          <button class="btn" id="fetchBtn">Fetch 🔍</button>
-        </div>
+
+
+
+
+
 
         <details style="color: var(--muted);">
           <summary>Optional: Add a GitHub Token for higher rate limits</summary>
-          <div class="glass" style="padding:12px; margin-top:8px; border-radius: 14px;">
-            <input id="token" placeholder="ghp_… personal access token (won't be stored)" style="width:100%; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 10px;"/>
+          <div class="glass" 
+          style="padding:12px; 
+          margin-top:8px; 
+          border-radius: 14px;">
+            <input id="token" placeholder="ghp_… personal access token (won't be stored)" 
+            style="width:100%; 
+            background: rgba(255,255,255,0.06); 
+            border: 1px solid var(--border); 
+            color: var(--text); 
+            padding: 10px 12px;
+             border-radius: 10px;"/>
             <small style="color:var(--muted);">Tokens increase API limits in your browser session only. Do not use secrets on shared computers.</small>
           </div>
         </details>
@@ -135,6 +63,7 @@
         <div class="info-card">
           <img class="avatar" src="https://avatars.githubusercontent.com/u/69631?v=4" alt="owner"/>
           <div>
+
             <div class="repo-name">facebook/react</div>
             <div class="desc">A declarative, efficient, and flexible JavaScript library for building user interfaces.</div>
             <div class="stats">
@@ -146,18 +75,20 @@
           </div>
         </div>
       </div>
+      
     </header>
 
-    <!-- <section id="features" data-aos="fade-up">
-      <div class="sec-title">What you get</div>
-      <div class="features">
-        <div class="feature">📇 <b>Project Info Card</b><br/><small>Owner, avatar, description, stars, forks, issues, last updated.</small></div>
-        <div class="feature">📊 <b>Analytics Dashboard</b><br/><small>Language breakdown, stars growth, issues stats.</small></div>
-        <div class="feature">🏆 <b>Contributor Showcase</b><br/><small>Top contributors with avatars & counts.</small></div>
-        <div class="feature">🔥 <b>Health Meter</b><br/><small>Score 0–100 based on activity & stability.</small></div>
-        <div class="feature">📖 <b>README Preview</b><br/><small>Beautifully rendered markdown inside your page.</small></div>
-      </div>
-    </section> -->
+   
+    <div class="repo-section" ata-aos="fade-up" data-aos-delay="150">
+            <h2 class="repo-heading">Paste your GitHub repo URL below to fetch the Repository details</h2>
+            </div>
+        <div class="glass input-card" data-aos="fade-up" data-aos-delay="200">
+            
+          <input id="repoUrl" placeholder="Paste GitHub Repo URL… (https://github.com/user/repo)" />
+          <button class="btn" id="fetchBtn">Fetch Repo</button>
+        
+        </div>
+
 
     <section id="app" style="margin-top: 26px; display:none;" data-aos="fade-up">
       <div class="sec-title">Project Overview</div>
@@ -226,262 +157,12 @@
     </section>
 
     <footer>
-      Built with ❤️ using HTML, CSS, JS + GitHub API. | <a href="#" id="backToTop">Back to top ↑</a>
+      Built by Adina Hawaldar | <a href="#" id="backToTop">Back to top ↑</a>
     </footer>
   </div>
 
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init({ once: true, duration: 600, easing: 'ease-out' });
-
-    // ===== Utilities =====
-    function parseRepoURL(url){
-      try{
-        const u = new URL(url.trim());
-        if(u.hostname !== 'github.com') return null;
-        const parts = u.pathname.replace(/^\//,'').split('/').filter(Boolean);
-        if(parts.length < 2) return null;
-        return { owner: parts[0], repo: parts[1] };
-      }catch(e){ return null; }
-    }
-    function fmtNum(n){
-      if(n === null || n === undefined) return '-';
-      return new Intl.NumberFormat().format(n);
-    }
-    function timeAgo(dateStr){
-      const d = new Date(dateStr);
-      const diff = (Date.now() - d.getTime())/1000;
-      const days = Math.floor(diff/86400);
-      if(days < 1){
-        const hours = Math.floor(diff/3600); return hours+"h ago";
-      }
-      if(days < 30) return days+"d ago";
-      const months = Math.floor(days/30); if(months < 12) return months+"mo ago";
-      const years = Math.floor(months/12); return years+"y ago";
-    }
-    function monthKey(d){
-      const dt = new Date(d);
-      return dt.getFullYear()+ '-' + String(dt.getMonth()+1).padStart(2,'0');
-    }
-
-    // ===== API layer =====
-    function ghHeaders(){
-      const h = { 'Accept': 'application/vnd.github+json' };
-      const t = document.getElementById('token').value.trim();
-      if(t) h['Authorization'] = 'Bearer ' + t;
-      return h;
-    }
-    async function gh(url){
-      const res = await fetch(url, { headers: ghHeaders() });
-      if(!res.ok) throw new Error('GitHub API error '+res.status+': '+url);
-      return res.json();
-    }
-
-    async function fetchRepo(owner, repo){
-      return gh(`https://api.github.com/repos/${owner}/${repo}`);
-    }
-    async function fetchLanguages(owner, repo){
-      return gh(`https://api.github.com/repos/${owner}/${repo}/languages`);
-    }
-    async function fetchContributors(owner, repo, perPage=24){
-      return gh(`https://api.github.com/repos/${owner}/${repo}/contributors?per_page=${perPage}`);
-    }
-    async function fetchIssuesCount(owner, repo){
-      // Use search API to get totals without pagination
-      const openQ = `https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:issue+state:open`;
-      const closedQ = `https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:issue+state:closed`;
-      const [open, closed] = await Promise.all([gh(openQ), gh(closedQ)]);
-      return { open: open.total_count, closed: closed.total_count };
-    }
-    async function fetchStargazersTimeline(owner, repo){
-      // Pull up to 100 most recent stargazers with timestamps
-      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/stargazers?per_page=100`, {
-        headers: { ...ghHeaders(), 'Accept': 'application/vnd.github.v3.star+json' }
-      });
-      if(!res.ok) throw new Error('Stargazers fetch failed');
-      const data = await res.json();
-      // Aggregate by month
-      const buckets = {};
-      data.forEach(s => {
-        const k = monthKey(s.starred_at);
-        buckets[k] = (buckets[k]||0) + 1;
-      });
-      // Convert to cumulative over last 12 months
-      const months = [];
-      const now = new Date();
-      for(let i=11;i>=0;i--){
-        const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
-        const k = monthKey(d);
-        months.push(k);
-      }
-      let total = 0;
-      const series = months.map(m => { total += (buckets[m]||0); return total; });
-      return { months, series, count: data.length };
-    }
-    async function fetchReadme(owner, repo){
-      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/readme`, { headers: ghHeaders() });
-      if(!res.ok) throw new Error('README not available');
-      const data = await res.json();
-      const content = atob(data.content.replace(/\n/g,''));
-      return content;
-    }
-
-    // ===== UI bindings =====
-    const repoInput = document.getElementById('repoUrl');
-    const fetchBtn = document.getElementById('fetchBtn');
-    const appSec = document.getElementById('app');
-
-    let langChart, starsChart, issuesChart;
-
-    function destroyCharts(){
-      [langChart, starsChart, issuesChart].forEach(c => { if(c){ c.destroy(); }});
-      langChart = starsChart = issuesChart = null;
-    }
-
-    function renderInfo(repo){
-      document.getElementById('ownerAvatar').src = repo.owner?.avatar_url || '';
-      const full = `${repo.full_name}`;
-      const a = document.getElementById('repoFullName');
-      a.textContent = full; a.href = repo.html_url;
-      document.getElementById('repoDesc').textContent = repo.description || 'No description';
-      const stats = document.getElementById('repoStats');
-      stats.innerHTML = '';
-      const pills = [
-        `⭐ ${fmtNum(repo.stargazers_count)}`,
-        `🍴 ${fmtNum(repo.forks_count)}`,
-        `🐞 ${fmtNum(repo.open_issues_count)} issues`,
-        `⏳ updated ${timeAgo(repo.pushed_at)}`
-      ];
-      pills.forEach(t => { const div = document.createElement('div'); div.className='chip'; div.textContent=t; stats.appendChild(div); });
-
-      document.getElementById('kpiStars').textContent = fmtNum(repo.stargazers_count);
-      document.getElementById('kpiForks').textContent = fmtNum(repo.forks_count);
-      document.getElementById('kpiIssues').textContent = fmtNum(repo.open_issues_count);
-      document.getElementById('kpiUpdated').textContent = timeAgo(repo.pushed_at);
-      document.getElementById('kpiCreated').textContent = new Date(repo.created_at).toLocaleDateString();
-      document.getElementById('kpiLicense').textContent = repo.license?.spdx_id || '—';
-      document.getElementById('kpiBranch').textContent = repo.default_branch || '—';
-    }
-
-    function renderLanguages(langs){
-      const labels = Object.keys(langs);
-      const values = Object.values(langs);
-      const total = values.reduce((a,b)=>a+b,0) || 1;
-      const perc = values.map(v => Math.round(v*100/total));
-      const ctx = document.getElementById('langChart');
-      langChart = new Chart(ctx, { type: 'pie', data: { labels, datasets: [{ data: perc }] }, options: { plugins: { legend: { labels: { color: '#c8d2ea' } } } } });
-    }
-
-    function renderStarsTimeline(tl, fallbackCount){
-      const ctx = document.getElementById('starsChart');
-      const note = document.getElementById('starsNote');
-      if(tl && tl.series.some(v=>v>0)){
-        starsChart = new Chart(ctx, { type: 'line', data: { labels: tl.months, datasets: [{ data: tl.series, fill: false }] }, options: { scales: { x: { ticks:{ color:'#c8d2ea'} }, y: { ticks:{ color:'#c8d2ea'} } }, plugins:{ legend:{ display:false } } } });
-        note.textContent = `Based on the most recent ${tl.count} stargazers (cumulative by month).`;
-      } else {
-        starsChart = new Chart(ctx, { type: 'bar', data: { labels: ['Total Stars'], datasets: [{ data: [fallbackCount] }] }, options: { plugins:{ legend:{ display:false } } } });
-        note.textContent = `Timeline unavailable (rate limits or no recent data). Showing total stars.`;
-      }
-    }
-
-    function renderIssues(open, closed){
-      const ctx = document.getElementById('issuesChart');
-      issuesChart = new Chart(ctx, { type: 'bar', data: { labels: ['Open','Closed'], datasets: [{ data: [open, closed] }] }, options: { plugins:{ legend:{ display:false } }, scales:{ x:{ ticks:{ color:'#c8d2ea'} }, y:{ ticks:{ color:'#c8d2ea'} } } } });
-    }
-
-    function renderContributors(list){
-      document.getElementById('kpiContrib').textContent = fmtNum(list.length);
-      const wrap = document.getElementById('contributors');
-      wrap.innerHTML='';
-      list.forEach(c => {
-        const el = document.createElement('div');
-        el.className = 'contrib';
-        el.innerHTML = `<img src="${c.avatar_url}" alt="${c.login}"><div><div class="name"><a href="${c.html_url}" target="_blank" rel="noopener">${c.login}</a></div><div class="count">${fmtNum(c.contributions)} contributions</div></div>`;
-        wrap.appendChild(el);
-      });
-    }
-
-    function computeHealth({ stars, forks, openIssues, closedIssues, contributors, pushedAt }){
-      // Normalize with simple caps
-      function cap(v, max){ return Math.min(v, max); }
-      const starsScore = (Math.log10(stars+1)/5)*25; // up to 25
-      const forksScore = (Math.log10(forks+1)/4)*15; // up to 15
-      const totalIssues = openIssues + closedIssues;
-      const stability = totalIssues>0 ? (closedIssues/totalIssues) : 1;
-      const stabilityScore = stability*20; // up to 20
-      const contribScore = Math.min(contributors/10, 1)*20; // up to 20
-      const daysSincePush = (Date.now()-new Date(pushedAt).getTime())/86400000;
-      let activityScore;
-      if(daysSincePush <= 7) activityScore = 20; else if(daysSincePush <= 30) activityScore = 16; else if(daysSincePush <= 90) activityScore = 12; else if(daysSincePush <= 180) activityScore = 8; else if(daysSincePush <= 365) activityScore = 4; else activityScore = 1;
-      const score = Math.round(starsScore + forksScore + stabilityScore + contribScore + activityScore);
-      let emoji = '🙂';
-      if(score>=80) emoji = '🔥'; else if(score>=60) emoji = '😃'; else if(score>=30) emoji = '💤'; else emoji = '⚰️';
-      return { score: Math.min(score,100), emoji };
-    }
-
-    function renderHealth(inputs){
-      const { score, emoji } = computeHealth(inputs);
-      const fill = document.getElementById('healthFill');
-      document.getElementById('healthScore').textContent = score;
-      document.getElementById('healthEmoji').textContent = emoji;
-      requestAnimationFrame(()=>{ fill.style.width = score+'%'; });
-    }
-
-    async function renderReadme(owner, repo){
-      const el = document.getElementById('readme');
-      el.innerHTML = '<i>Loading README…</i>';
-      try{
-        const md = await fetchReadme(owner, repo);
-        el.innerHTML = marked.parse(md);
-      }catch(e){ el.innerHTML = '<i>README not available.</i>'; }
-    }
-
-    async function loadRepo(url){
-      const parsed = parseRepoURL(url);
-      if(!parsed){ alert('Please enter a valid GitHub repo URL, e.g. https://github.com/user/repo'); return; }
-      appSec.style.display = 'block';
-      destroyCharts();
-
-      const { owner, repo } = parsed;
-      try{
-        const repoData = await fetchRepo(owner, repo);
-        renderInfo(repoData);
-
-        const [langs, issues, contribs] = await Promise.all([
-          fetchLanguages(owner, repo).catch(()=>({})),
-          fetchIssuesCount(owner, repo).catch(()=>({ open: repoData.open_issues_count || 0, closed: 0 })),
-          fetchContributors(owner, repo, 24).catch(()=>[])
-        ]);
-        renderLanguages(langs||{});
-        renderIssues(issues.open||0, issues.closed||0);
-        renderContributors(contribs||[]);
-
-        let tl = null;
-        try{ tl = await fetchStargazersTimeline(owner, repo); } catch(e){ tl = null; }
-        renderStarsTimeline(tl, repoData.stargazers_count || 0);
-
-        renderHealth({
-          stars: repoData.stargazers_count||0,
-          forks: repoData.forks_count||0,
-          openIssues: issues.open||0,
-          closedIssues: issues.closed||0,
-          contributors: (contribs||[]).length,
-          pushedAt: repoData.pushed_at
-        });
-
-        renderReadme(owner, repo);
-      }catch(err){
-        console.error(err);
-        alert('Failed to load repository. Check the URL or your rate limit / token.');
-      }
-    }
-
-    fetchBtn.addEventListener('click', () => loadRepo(repoInput.value));
-    repoInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') loadRepo(repoInput.value); });
-    document.getElementById('backToTop').addEventListener('click', (e)=>{ e.preventDefault(); window.scrollTo({ top:0, behavior:'smooth' }); });
-
-    // Demo: preload a popular repo for first-time users (non-blocking)
-    setTimeout(()=>{ if(!location.hash){ repoInput.value = 'https://github.com/facebook/react'; } }, 400);
-  </script>
+  <script src="script.js"></script>
+  
 </body>
 </html>
